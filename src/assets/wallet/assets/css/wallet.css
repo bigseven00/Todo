@@ -1,0 +1,80 @@
+.money {
+    font-size: 1.9rem;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 600;
+}
+
+.com {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    background-color: #edf3f8;
+    padding-left: 15px;
+    padding-top: 12px;
+}
+
+.mag {
+    height: 19px;
+}
+
+
+.mag1 {
+    height: 45px;
+}
+
+.com1 {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    background-color: #edf3f8;
+    padding-top: 8px;
+}
+
+.com2 {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    background-color: #edf3f8;
+    padding-left: 8px;
+    padding-top: 3px;
+  
+
+
+}
+
+.hi {
+    border-bottom: 4px solid blue;
+    width: 22px;
+    padding-bottom: 5px;
+    margin-left: 15px;
+
+}
+
+.ass {
+    width: 50px;
+    height: 38px;
+    border-radius: 50%;
+}
+
+.ass1 {
+    width: 30px;
+    height: 28px;
+    border-radius: 50%;
+
+}
+
+.try {
+    font-size: 12px;
+}
+
+.hey {
+    font-weight: 500;
+
+}
+
+.ken {
+    line-height: 40px;
+    padding-left: 15px;
+    width: 370px;
+    margin-top: 5px;
+}
