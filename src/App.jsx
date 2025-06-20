@@ -1,18 +1,9 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import Todo from './components/todo'
 import TodoTitle from './components/TodoTitle'
 import Popup from './components/Popup'
+import Todo from './components/Todo'
 
 function App() {
-
-  function inputChange(){
-    console.log(event.target.value);
-  }
- 
-
   return (
     <>
      <TodoTitle/>
