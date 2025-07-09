@@ -22,38 +22,38 @@ export default function Contact() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8 text-center">Contact Us</h1>
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md">
-        <div className="mb-4">
-          <label className="block mb-2 font-medium">Name</label>
+    <div className="max-w-md mx-auto">
+      <h1 className="text-2xl font-bold mt-14 text-center">Contact Us</h1>
+      <form onSubmit={handleSubmit} className="bg-white p-4 rounded-lg shadow-md">
+        <div className="mb-4 flex flex-row gap-3">
+          <label className="block font-medium">Name:</label>
           <input
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
         </div>
-        <div className="mb-4">
-          <label className="block mb-2 font-medium">Email</label>
+        <div className="mb-4 flex flex-row gap-3">
+          <label className="block mb-1 font-medium">Email:</label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
         </div>
-        <div className="mb-6">
-          <label className="block mb-2 font-medium">Message</label>
+        <div className="mb-4">
+          <label className="block mb-1 font-medium">Message:</label>
           <textarea
             name="message"
             value={formData.message}
             onChange={handleChange}
-            className="w-full p-3 border border-gray-300 rounded-lg h-40 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border border-gray-300 rounded-lg h-40 focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           ></textarea>
         </div>

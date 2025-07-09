@@ -1,7 +1,7 @@
 export default function About() {
     return (
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-center">About Us</h1>
+        <h1 className="text-3xl font-bold mt-14 text-center">About Us</h1>
         <div className="bg-white p-6 rounded-lg shadow-md">
           <p className="text-lg mb-4">
             We're a passionate team dedicated to helping you organize your life 

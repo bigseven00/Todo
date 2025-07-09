@@ -1,8 +1,10 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { User, Menu, X } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { User, Menu, X, LogIn, LogOut, User as UserIcon } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import '@/lib/firebaseConfig';
 
 const navLinks = [
   { path: "/", name: "Home" },
@@ -13,11 +15,24 @@ const navLinks = [
 
 export default function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [user, setUser] = useState(null);
   const menuRef = useRef(null);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     setIsMenuOpen(false);
+    setIsDropdownOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -25,12 +40,19 @@ export default function Header() {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsMenuOpen(false);
       }
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
     }
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const handleLogout = async () => {
+    const auth = getAuth();
+    await signOut(auth);
+    router.push("/");
+  };
 
   const getNavLinkClass = (path) =>
     pathname === path
@@ -38,7 +60,7 @@ export default function Header() {
       : "text-white hover:text-blue-300 transition";
 
   return (
-    <header className="bg-gray-800 text-white py-2 shadow-md relative">
+    <header className="bg-gray-800 text-white py-2 shadow-md fixed top-0 left-0 w-full z-50">
       <div className="mx-auto px-8 flex items-center justify-between">
         <div>
           <Link href="/" className="text-2xl font-bold mr-5">
@@ -57,24 +79,57 @@ export default function Header() {
           ))}
         </nav>
         <div className="flex items-center gap-4">
-          <Menu
+          <button
             className="md:hidden cursor-pointer"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
-          />
-          <Link
-            href="/login"
-            className="hidden md:flex items-center gap-2 text-white hover:text-blue-300 transition"
+            aria-expanded={isMenuOpen}
           >
-            <User size={17} />
-            <span>Login</span>
-          </Link>
-          <Link
-            href="/login"
-            className="md:hidden text-white hover:text-blue-300 transition"
-          >
-            <User size={17} />
-          </Link>
+            <Menu />
+          </button>
+          <div className="relative">
+            <button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="text-white hover:text-blue-300 transition"
+            >
+              <User size={24} />
+            </button>
+            {isDropdownOpen && (
+              <div
+                ref={dropdownRef}
+                className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50"
+              >
+                {user ? (
+                  <>
+                    <Link
+                      href="/profile"
+                      className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
+                      <UserIcon className="inline mr-2" size={16} />
+                      View Profile
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100"
+                    >
+                      <LogOut className="inline mr-2" size={16} />
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <Link
+                    href="/login"
+                    className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                    onClick={() => setIsDropdownOpen(false)}
+                  >
+                    <LogIn className="inline mr-2" size={16} />
+                    Login
+                  </Link>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
       {isMenuOpen && (
@@ -83,11 +138,13 @@ export default function Header() {
           className="md:hidden absolute top-full left-0 right-0 bg-gray-700 text-white shadow-lg"
         >
           <div className="flex justify-end p-2">
-            <X
+            <button
               className="cursor-pointer"
               onClick={() => setIsMenuOpen(false)}
               aria-label="Close menu"
-            />
+            >
+              <X />
+            </button>
           </div>
           <nav className="flex flex-col items-center py-4">
             {navLinks.map((link) => (

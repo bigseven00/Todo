@@ -31,7 +31,7 @@ export default function TodoPage() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto mb-5">
+    <div className="max-w-3xl mx-auto mt-14">
       <TodoTitle />
 
       <div className="flex mb-8 mt-6">
