@@ -9,14 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "firebase": "^11.10.0",
-    "firebase-admin": "^13.4.0",
+    "@auth/supabase-adapter": "^1.10.0",
+    "@supabase/supabase-js": "^2.52.0",
+    "bcryptjs": "^3.0.2",
     "lucide-react": "^0.524.0",
     "next": "15.3.4",
-    "next-auth": "^4.24.11",
+    "next-auth": "^4.24.8",
     "nodemailer": "^6.10.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-phone-number-input": "^3.4.12",
+    "react-toastify": "^11.0.5"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.19",

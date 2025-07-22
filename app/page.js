@@ -8,7 +8,10 @@ export default function Home() {
         <div className="container mx-auto text-center">
           <h1 className="text-5xl font-bold mb-4">TaskMaster</h1>
           <p className="text-xl mb-8">Organize Your Day with Ease</p>
-          <Link href="/todo" className="bg-white text-blue-500 px-6 py-3 rounded-full font-semibold">
+          <Link
+            href="/todo"
+            className="bg-white text-blue-500 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition"
+          >
             Get Started
           </Link>
         </div>

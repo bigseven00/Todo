@@ -1,42 +1,33 @@
-"use client";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { supabase } from "@/lib/supabase";
+import ProfileClient from "./profileClient";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+export default async function ProfilePage() {
+  const session = await getServerSession(authOptions);
 
-export default function Profile() {
-  const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const router = useRouter();
-
-  useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUserData({
-          email: user.email,
-        });
-        setLoading(false);
-      } else {
-        router.push("/login");
-      }
-    });
-    return () => unsubscribe();
-  }, [router]);
-
-  if (loading) {
-    return <div>Loading...</div>;
+  if (!session) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <p>Please log in to view your profile.</p>
+      </div>
+    );
   }
 
-  return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-4 text-center">Profile</h1>
-        <div className="mb-4">
-          <label className="block text-gray-700">Email</label>
-          <p>{userData.email}</p>
-        </div>
+  const { data: user, error } = await supabase
+    .from("users")
+    .select("id, email, first_name, last_name, phone_number, profile_picture")
+    .eq("id", session.user.id)
+    .single();
+
+  if (error || !user) {
+    console.error("Error fetching user:", error);
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <p>Error fetching user data. Please try again later.</p>
       </div>
-    </div>
-  );
+    );
+  }
+
+  return <ProfileClient user={user} />;
 }

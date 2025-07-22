@@ -1,10 +1,10 @@
 "use client";
+
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { User, Menu, X, LogIn, LogOut, User as UserIcon } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-import '@/lib/firebaseConfig';
+import { useSession, signOut } from "next-auth/react";
 
 const navLinks = [
   { path: "/", name: "Home" },
@@ -16,19 +16,11 @@ const navLinks = [
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
+  const { data: session } = useSession();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [user, setUser] = useState(null);
   const menuRef = useRef(null);
   const dropdownRef = useRef(null);
-
-  useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-    });
-    return () => unsubscribe();
-  }, []);
 
   useEffect(() => {
     setIsMenuOpen(false);
@@ -49,8 +41,7 @@ export default function Header() {
   }, []);
 
   const handleLogout = async () => {
-    const auth = getAuth();
-    await signOut(auth);
+    await signOut({ redirect: false });
     router.push("/");
   };
 
@@ -99,7 +90,7 @@ export default function Header() {
                 ref={dropdownRef}
                 className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50"
               >
-                {user ? (
+                {session ? (
                   <>
                     <Link
                       href="/profile"
